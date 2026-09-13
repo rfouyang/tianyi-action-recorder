@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MuJoCo pose workbench for the X-Humanoid Tianyi 2.0 robot"
+    />
+    <title>Tianyi pose workbench</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="/static/app.css" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen bg-base-200 text-base-content">
+    <header class="border-b border-base-300 bg-base-100">
+      <div class="mx-auto flex max-w-[1600px] flex-col gap-4 px-5 py-5 sm:flex-row sm:items-end sm:justify-between lg:px-8">
+        <div>
+          <h1 class="text-2xl font-semibold tracking-tight sm:text-3xl">Tianyi pose workbench</h1>
+          <p class="mt-1 max-w-2xl text-sm text-base-content/65">
+            Shape the head and arms in MuJoCo. The wheeled base, leg mechanism, and waist stay locked.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="connection-badge" class="badge badge-soft">Connecting</span>
+          <span class="badge badge-outline">MuJoCo only</span>
+          <span id="revision-badge" class="badge badge-outline">Revision 0</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto grid max-w-[1600px] grid-cols-1 gap-5 px-5 py-5 xl:grid-cols-[minmax(0,1.55fr)_minmax(24rem,0.8fr)] lg:px-8 lg:py-7">
+      <section class="card card-border overflow-hidden bg-base-100" aria-labelledby="robot-view-heading">
+        <div class="card-body gap-4 p-4 sm:p-5">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 id="robot-view-heading" class="card-title">Robot view</h2>
+              <p id="camera-description" class="text-sm text-base-content/60">Front camera faces the robot.</p>
+            </div>
+            <div class="overflow-x-auto pb-1">
+              <div class="join" role="group" aria-label="Robot-relative camera view">
+                <button class="btn btn-sm join-item btn-active camera-button" data-camera="front">Front</button>
+                <button class="btn btn-sm join-item camera-button" data-camera="front_left">Front-left</button>
+                <button class="btn btn-sm join-item camera-button" data-camera="left">Left</button>
+                <button class="btn btn-sm join-item camera-button" data-camera="right">Right</button>
+                <button class="btn btn-sm join-item camera-button" data-camera="front_right">Front-right</button>
+                <button class="btn btn-sm join-item camera-button" data-camera="back">Back</button>
+              </div>
+            </div>
+          </div>
+
+          <figure class="robot-stage relative grid min-h-[420px] place-items-center overflow-hidden rounded-box sm:min-h-[560px]">
+            <img
+              id="robot-image"
+              class="block h-full max-h-[760px] w-full object-contain"
+              alt="Front view of the Tianyi robot in MuJoCo"
+            />
+            <div id="render-loading" class="absolute inset-0 grid place-items-center bg-base-300/45">
+              <span class="loading loading-ring loading-lg" aria-label="Rendering robot"></span>
+            </div>
+          </figure>
+
+          <div class="flex flex-col gap-2 text-sm text-base-content/65 sm:flex-row sm:items-center sm:justify-between">
+            <p>Views are robot-relative. In Front, robot-left appears image-right.</p>
+            <p id="render-metric" class="tabular-nums">Waiting for first render</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="flex min-h-0 flex-col gap-5">
+        <section class="card card-border min-h-0 bg-base-100" aria-labelledby="joint-editor-heading">
+          <div class="card-body min-h-0 gap-4 p-4 sm:p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 id="joint-editor-heading" class="card-title">Pose controls</h2>
+                <p class="mt-1 text-sm text-base-content/60">Angles are shown in radians.</p>
+              </div>
+              <button id="reset-button" class="btn btn-sm">Reset default</button>
+            </div>
+
+            <div id="joint-tabs" role="tablist" class="tabs tabs-box tabs-sm">
+              <button role="tab" class="tab tab-active" data-group="head" aria-selected="true">Head</button>
+              <button role="tab" class="tab" data-group="left_arm" aria-selected="false">Left arm</button>
+              <button role="tab" class="tab" data-group="right_arm" aria-selected="false">Right arm</button>
+            </div>
+
+            <div id="joint-controls" class="joint-controls flex min-h-[360px] flex-col gap-4 overflow-y-auto pr-1" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section class="alert alert-warning alert-soft" aria-labelledby="locked-heading">
+          <div>
+            <h2 id="locked-heading" class="font-semibold">Locked body state</h2>
+            <p id="locked-description" class="mt-1 text-sm">
+              Loading model contract…
+            </p>
+          </div>
+        </section>
+
+        <section id="status-message" role="alert" class="alert alert-soft hidden">
+          <span id="status-text"></span>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="border-t border-base-300 bg-base-100">
+      <div class="mx-auto flex max-w-[1600px] flex-col gap-1 px-5 py-4 text-xs text-base-content/55 sm:flex-row sm:justify-between lg:px-8">
+        <span id="model-id">Loading model…</span>
+        <span id="mesh-summary">Loading optimized visual model…</span>
+      </div>
+    </footer>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

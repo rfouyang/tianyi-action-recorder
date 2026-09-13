@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "model_id": "xhumanoid_tianyi2_0_pro_body_21dof_5c221783",
+  "display_name": "X-Humanoid Tianyi 2.0 Pro body-only 21-DOF model",
+  "body_joint_count": 21,
+  "leg_joint_count": 2,
+  "waist_joint_count": 2,
+  "head_joint_count": 3,
+  "arm_joint_count": 14,
+  "hand_joint_count": 0,
+  "visual_hand_joint_count": 24,
+  "source_hand_actuated_joint_count": 12,
+  "visual_hand_actuated_joint_count": 0,
+  "base_pose_joint_count": 17,
+  "left_arm_pose_joint_count": 7,
+  "right_arm_pose_joint_count": 7,
+  "actuator_count": 21,
+  "mesh_count": 25,
+  "urdf": "tianyi2.0_URDF.urdf",
+  "mjcf": "tianyi2_pos.xml",
+  "visual_mesh_directory": "meshes",
+  "collision_mesh_directory": "meshes_convex",
+  "visualization": {
+    "render_only_mjcf": "tianyi2_visual.xml",
+    "optimized_mesh_directory": "meshes_visual_optimized",
+    "generated_metadata": "visual_model_metadata.json",
+    "builder": "util/build_tianyi_visual_assets.py",
+    "viser_urdf": "tianyi2_visual_optimized.urdf",
+    "viser_source_urdf": "tianyi2.0_urdf_with_hands.urdf",
+    "viser_mesh_count": 51,
+    "viser_includes_inspire_hands": true,
+    "viser_hand_control_enabled": false,
+    "viser_mesh_metadata": "visual_urdf_mesh_metadata.json",
+    "viser_generated_metadata": "visual_urdf_metadata.json",
+    "viser_builder": "util/build_tianyi_visual_urdf.py"
+  },
+  "sha256": {
+    "tianyi2.0_URDF.urdf": "71253d0679248a9bbbfad3c6a7fcde13262088968cdb6f7079e0498ac35df7e8",
+    "tianyi2.0_urdf_with_hands.urdf": "a7e742ad600c7f1e9eeecdd04046dea4cd5f81cccb6dde73f290968b345e4b20",
+    "tianyi2_pos.xml": "3c49de5e527b1b2e9145ea042387875df87f738bebefa05d23bd17b39090243e"
+  },
+  "canonical_source": {
+    "repository": "https://github.com/Open-X-Humanoid/TienKung_URDF",
+    "commit": "5c221783fb92fcc4af891ef1dc0502963caf2266",
+    "source_directory": "tianyi2_urdf",
+    "source_urdf": "urdf/tianyi2.0_URDF.urdf",
+    "source_visual_urdf": "urdf/tianyi2.0_urdf_with_hands.urdf",
+    "source_mjcf": "tianyi2_pos.xml"
+  },
+  "sdk_reference": {
+    "document": "doc/天轶2.0 Pro ROS2 SDK-250926.pdf",
+    "software_version": "v2.0.5",
+    "updated": "2025-09-26"
+  },
+  "license": "OpenAtom Open Hardware License Version 1.0"
+}

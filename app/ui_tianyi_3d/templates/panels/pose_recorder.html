@@ -1,0 +1,228 @@
+<section
+  id="panel-pose-recorder"
+  class="p-5"
+  role="tabpanel"
+  aria-labelledby="tab-pose-recorder"
+  data-panel="pose-recorder"
+  data-pose-recorder
+  data-initial-revision="{{ initial_revision }}"
+  data-default-pose-name="{{ default_pose_name }}"
+>
+  <div class="flex items-start justify-between gap-3">
+    <div>
+      <p class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-base-content/50">Simulation workspace</p>
+      <h1 class="mt-1 text-xl font-bold tracking-tight">Pose Recorder</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="simulation-status" class="status status-warning status-sm" aria-label="Simulation connection pending"></span>
+      <span id="simulation-status-label" class="font-mono text-[0.65rem] text-base-content/55">Connecting</span>
+    </div>
+  </div>
+  <p class="mt-2 text-sm leading-5 text-base-content/65">
+    Adjust the head and two seven-joint arms in MuJoCo. Use the calibration group to inspect the fixed lower body without adding it to a pose.
+  </p>
+
+  <div class="divider my-4"></div>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset-legend">Source</legend>
+    <div class="join w-full">
+      <button class="btn btn-sm btn-neutral join-item flex-1" type="button" aria-pressed="true">MuJoCo</button>
+      <button class="btn btn-sm btn-ghost join-item flex-1" type="button" disabled aria-disabled="true">Robot unavailable</button>
+    </div>
+  </fieldset>
+
+  <div class="mt-3 border border-base-300 bg-base-200 p-3">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <h2 class="text-sm font-semibold">Load saved pose</h2>
+        <p class="mt-0.5 text-xs text-base-content/55">Apply a saved pose to MuJoCo, then continue editing its joints below.</p>
+      </div>
+      <span class="badge badge-outline badge-sm">Editable copy</span>
+    </div>
+    <div class="mt-2 grid grid-cols-2 gap-3">
+      <fieldset class="fieldset min-w-0">
+        <legend class="fieldset-legend">Pose type</legend>
+        <select id="recorder-load-type" class="select select-sm w-full">
+          <option value="base">Base</option>
+          <option value="left_arm">Robot-left arm</option>
+          <option value="right_arm">Robot-right arm</option>
+          <option value="composed">Composed</option>
+        </select>
+      </fieldset>
+      <fieldset class="fieldset min-w-0">
+        <legend class="fieldset-legend">Saved pose</legend>
+        <select
+          id="recorder-load-name"
+          class="select select-sm w-full"
+          data-pose-names='{{ recorder_pose_names | tojson }}'
+        ></select>
+      </fieldset>
+    </div>
+    <button id="recorder-load" class="btn btn-sm mt-3 w-full" type="button">
+      <span data-recorder-load-label>Load for editing</span>
+      <span data-recorder-load-loading class="loading loading-spinner loading-xs hidden" aria-hidden="true"></span>
+    </button>
+    <p class="mt-2 text-[0.65rem] leading-4 text-base-content/55">
+      A composed pose opens as a complete editable base pose. Loading never changes the saved file.
+    </p>
+  </div>
+
+  <fieldset class="fieldset mt-3">
+    <legend class="fieldset-legend">Pose group</legend>
+    <select id="pose-group" class="select select-sm w-full" aria-label="Pose group">
+      <option value="base">Base · head + both arms (17 joints)</option>
+      <option value="left_arm">Robot-left arm (7 joints)</option>
+      <option value="right_arm">Robot-right arm (7 joints)</option>
+      <option value="calibration">Calibration only · motors 31, 32, 51, 52 (never recorded)</option>
+    </select>
+    <div class="mt-2 flex flex-wrap gap-1.5" aria-label="Joint group color key">
+      <span class="badge badge-neutral badge-sm">Head</span>
+      <span class="badge badge-secondary badge-sm">Robot-left arm</span>
+      <span class="badge badge-accent badge-sm">Robot-right arm</span>
+      <span class="badge badge-warning badge-sm">Calibration only</span>
+    </div>
+  </fieldset>
+
+  <div id="arm-mirror-controls" class="mt-3 border border-base-300 bg-base-200 p-3">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <h2 class="text-sm font-semibold">Mirror arm edit</h2>
+        <p class="mt-0.5 text-xs text-base-content/55">Capture the live MuJoCo arm and reflect it into the opposite arm.</p>
+      </div>
+      <span class="badge badge-outline badge-sm">Sagittal</span>
+    </div>
+    <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <button
+        class="btn btn-sm"
+        type="button"
+        data-mirror-arm="left_arm"
+        aria-label="Mirror robot-left arm to robot-right arm"
+      >Robot-left → right</button>
+      <button
+        class="btn btn-sm"
+        type="button"
+        data-mirror-arm="right_arm"
+        aria-label="Mirror robot-right arm to robot-left arm"
+      >Robot-right → left</button>
+    </div>
+    <p class="mt-2 font-mono text-[0.62rem] leading-4 text-base-content/55">
+      Keep sign: shoulder pitch, elbow pitch, wrist pitch · Reverse sign: shoulder roll/yaw, wrist yaw/roll
+    </p>
+  </div>
+
+  <div id="calibration-notice" class="alert alert-warning mt-3 hidden py-2 text-xs" role="note">
+    <span class="status status-warning"></span>
+    <span><strong>Never recorded:</strong> these four controls change only the current MuJoCo/Viser calibration. Base, arm, composed-pose, and action files exclude them.</span>
+  </div>
+
+  <div id="pose-metadata-fields" class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Pose name</legend>
+      <input id="pose-name" class="input input-sm w-full" type="text" maxlength="100" autocomplete="off" placeholder="e.g. welcome_neutral">
+    </fieldset>
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Notes</legend>
+      <input id="pose-notes" class="input input-sm w-full" type="text" autocomplete="off" placeholder="Optional">
+    </fieldset>
+  </div>
+
+  <label id="pose-overwrite-field" class="label mt-2 cursor-pointer justify-start gap-2 text-xs">
+    <input id="pose-overwrite" type="checkbox" class="checkbox checkbox-xs">
+    Allow replacing an existing pose with the same name
+  </label>
+
+  <div class="mt-3 grid grid-cols-2 gap-2">
+    <button id="reset-pose" class="btn btn-sm btn-ghost" type="button">Reset to {{ default_pose_name }}</button>
+    <button id="save-pose" class="btn btn-sm btn-neutral" type="button">
+      <span data-save-label>Save pose</span>
+      <span data-save-loading class="loading loading-spinner loading-xs hidden" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div id="simulation-success" class="alert alert-success mt-3 hidden py-2 text-xs" role="status"></div>
+  <div id="simulation-error" class="alert alert-error mt-3 hidden py-2 text-xs" role="alert"></div>
+
+  <div class="mt-5 border-y border-base-300 py-3">
+    <div class="mb-2 flex items-center justify-between">
+      <h2 class="text-sm font-semibold">Joint inspector</h2>
+      <span id="visible-joint-count" class="badge badge-ghost badge-sm">{{ editable_joint_count }} joints</span>
+    </div>
+    <div class="min-h-64 overflow-y-auto border border-base-300 lg:max-h-[calc(100vh-30rem)]">
+      <table class="table table-xs table-pin-rows">
+        <thead>
+          <tr>
+            <th class="w-28">Joint</th>
+            <th>Target</th>
+            <th class="w-16 text-right">Actual</th>
+            <th class="w-10"><span class="sr-only">Reset</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for joint in joint_rows %}
+          <tr
+            class="{% if joint.group == 'left_arm' %}bg-secondary/10{% elif joint.group == 'right_arm' %}bg-accent/10{% elif joint.group == 'calibration' %}bg-warning/10{% else %}bg-neutral/10{% endif %}"
+            data-joint-row
+            data-joint-group="{{ joint.group }}"
+            data-joint-recordable="{{ 'true' if joint.recordable else 'false' }}"
+          >
+            <th class="border-l-4 {% if joint.group == 'left_arm' %}border-secondary{% elif joint.group == 'right_arm' %}border-accent{% elif joint.group == 'calibration' %}border-warning{% else %}border-neutral{% endif %}">
+              <span class="block leading-4">{{ joint.label }}</span>
+              <span class="badge badge-xs mt-0.5 {% if joint.group == 'left_arm' %}badge-secondary{% elif joint.group == 'right_arm' %}badge-accent{% elif joint.group == 'calibration' %}badge-warning{% else %}badge-neutral{% endif %}">
+                {% if joint.group == "left_arm" %}robot-left{% elif joint.group == "right_arm" %}robot-right{% elif joint.group == "calibration" %}motor {{ joint.motor_id }}{% else %}head{% endif %}
+              </span>
+            </th>
+            <td>
+              <div class="flex min-w-44 items-center gap-2">
+                <input
+                  class="range range-xs min-w-24 flex-1 {% if joint.group == 'left_arm' %}range-secondary{% elif joint.group == 'right_arm' %}range-accent{% elif joint.group == 'calibration' %}range-warning{% else %}range-neutral{% endif %}"
+                  type="range"
+                  min="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.lower_limit) }}"
+                  max="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.upper_limit) }}"
+                  step="{{ '0.000001' if joint.group == 'calibration' else '0.001' }}"
+                  value="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.target) }}"
+                  aria-label="{{ joint.label }} target"
+                  data-joint-target
+                  data-joint-name="{{ joint.name }}"
+                  data-joint-calibration="{{ 'true' if joint.group == 'calibration' else 'false' }}"
+                  data-joint-recordable="{{ 'true' if joint.recordable else 'false' }}"
+                >
+                <input
+                  class="input input-xs {% if joint.group == 'calibration' %}w-32{% else %}w-20{% endif %} font-mono text-right"
+                  type="number"
+                  min="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.lower_limit) }}"
+                  max="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.upper_limit) }}"
+                  step="{{ '0.000001' if joint.group == 'calibration' else '0.001' }}"
+                  value="{{ ('%.12f' if joint.group == 'calibration' else '%.3f')|format(joint.target) }}"
+                  aria-label="{{ joint.label }} target value"
+                  data-joint-target-number
+                  data-joint-name="{{ joint.name }}"
+                  data-joint-calibration="{{ 'true' if joint.group == 'calibration' else 'false' }}"
+                  data-joint-recordable="{{ 'true' if joint.recordable else 'false' }}"
+                >
+              </div>
+            </td>
+            <td class="text-right font-mono tabular-nums" data-joint-actual="{{ joint.name }}" data-joint-calibration="{{ 'true' if joint.group == 'calibration' else 'false' }}">{{ ('%.9f' if joint.group == 'calibration' else '%.3f')|format(joint.actual) }}</td>
+            <td class="text-right">
+              <div class="tooltip tooltip-left" data-tip="Reset to {{ 'calibration baseline' if joint.group == 'calibration' else default_pose_name }}: {{ '%.6f'|format(joint.reset_value) }} rad">
+                <button
+                  class="btn btn-square btn-ghost btn-xs {% if joint.group == 'left_arm' %}text-secondary{% elif joint.group == 'right_arm' %}text-accent{% elif joint.group == 'calibration' %}text-warning{% else %}text-neutral{% endif %}"
+                  type="button"
+                  aria-label="Reset {{ joint.label }} to baseline"
+                  data-joint-reset
+                  data-joint-name="{{ joint.name }}"
+                  data-joint-calibration="{{ 'true' if joint.group == 'calibration' else 'false' }}"
+                  data-reset-value="{{ ('%.17g' if joint.group == 'calibration' else '%.6f')|format(joint.reset_value) }}"
+                >↺</button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-2 text-[0.65rem] leading-4 text-base-content/55">
+      Values are radians. Target is your command; Actual is the latest MuJoCo state.
+    </p>
+  </div>
+</section>

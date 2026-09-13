@@ -1,0 +1,34 @@
+body {
+  font-family: "Aptos", "Segoe UI Variable", "Noto Sans", sans-serif;
+}
+
+.robot-stage {
+  background: var(--color-base-300);
+}
+
+.joint-controls {
+  scrollbar-color: color-mix(in oklab, var(--color-base-content) 24%, transparent)
+    transparent;
+}
+
+.joint-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.range:focus-visible,
+.camera-button:focus-visible,
+.tab:focus-visible,
+.input:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--color-base-content);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

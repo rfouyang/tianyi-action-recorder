@@ -1,0 +1,40 @@
+[project]
+name = "tianyi-action-recorder"
+version = "0.1.0"
+description = "Simulation-first pose and action authoring for X-Humanoid Tianyi 2.0."
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "fastapi>=0.116,<1",
+    "jinja2>=3.1,<4",
+    "mujoco>=3.3,<4",
+    "numpy>=1.26,<3",
+    "pillow>=11,<13",
+    "uvicorn>=0.35,<1",
+    "viser[urdf]>=1.0,<2",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28,<1",
+    "ruff>=0.11",
+]
+
+[project.scripts]
+tianyi-recorder = "app.tianyi_3d_main:main"
+tianyi-3d = "app.tianyi_3d_main:main"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*", "component*", "config*", "util*"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+extend-exclude = ["AGENTS.md"]
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]

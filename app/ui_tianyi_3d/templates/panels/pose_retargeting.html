@@ -1,0 +1,90 @@
+<section
+  id="panel-pose-retargeting"
+  class="hidden p-5"
+  role="tabpanel"
+  aria-labelledby="tab-pose-retargeting"
+  data-panel="pose-retargeting"
+  data-pose-retargeting
+>
+  <p class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-base-content/50">02 · Cross-robot solve</p>
+  <h1 class="mt-1 text-xl font-bold tracking-tight">Pose Retargeting</h1>
+  <p class="mt-2 text-sm leading-5 text-base-content/65">
+    Choose a G1 pose JSON file, transfer both hand motions into Tianyi geometry, then compare the original G1 and retargeted Tianyi side by side in the live viewer.
+  </p>
+
+  <div role="alert" class="alert alert-warning mt-4 py-2 text-xs">
+    <span>MuJoCo preview only. Tianyi head stays at <span class="font-mono">concierge_init</span>; waist, legs, wheels, and hands remain fixed.</span>
+  </div>
+
+  <div class="divider my-4"></div>
+
+  <div class="border border-base-300 bg-base-200 p-3">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold">1 · G1 source</h2>
+      <span class="badge badge-outline badge-sm">One or two arms</span>
+    </div>
+    <fieldset class="fieldset mt-2">
+      <legend class="fieldset-legend">G1 pose JSON</legend>
+      <input id="retarget-source-file" type="file" accept=".json,application/json" class="file-input file-input-sm w-full">
+      <p id="retarget-file-summary" class="label whitespace-normal">No file selected. Supported: base, composed, robot-left arm, and robot-right arm.</p>
+    </fieldset>
+    <button id="retarget-preview" class="btn btn-sm btn-neutral mt-3 w-full" type="button" disabled>
+      <span data-retarget-preview-label>Retarget and preview</span>
+      <span data-retarget-preview-loading class="loading loading-spinner loading-xs hidden" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="mt-4 border border-base-300 p-3">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold">2 · Solve report</h2>
+      <span id="retarget-solve-badge" class="badge badge-ghost badge-sm">Not run</span>
+    </div>
+    <div class="mt-2 overflow-x-auto">
+      <table class="table table-xs">
+        <thead>
+          <tr><th>Arm</th><th>Hand</th><th>Elbow</th><th>Upper</th><th>Forearm</th><th>Wrist</th></tr>
+        </thead>
+        <tbody id="retarget-report">
+          <tr><td colspan="6" class="text-base-content/50">Choose a source and run the solve.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p id="retarget-contact-report" class="mt-2 font-mono text-[0.65rem] uppercase text-base-content/50">Contacts · —</p>
+  </div>
+
+  <div class="mt-4 border border-base-300 p-3">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold">3 · Tianyi output</h2>
+      <span class="badge badge-neutral badge-sm">Arm · 7 joints</span>
+    </div>
+    <fieldset class="fieldset mt-2">
+      <legend class="fieldset-legend">Save as</legend>
+      <select id="retarget-output-type" class="select select-sm w-full">
+        <option value="left_arm">Robot-left arm pose</option>
+        <option value="right_arm">Robot-right arm pose</option>
+      </select>
+      <p class="label">Only the selected anatomical arm is written to the pose file.</p>
+    </fieldset>
+    <fieldset class="fieldset mt-2">
+      <legend class="fieldset-legend">Tianyi arm pose name</legend>
+      <input id="retarget-name" class="input input-sm w-full" maxlength="100" autocomplete="off" placeholder="g1_welcome_left">
+    </fieldset>
+    <fieldset class="fieldset mt-2">
+      <legend class="fieldset-legend">Notes</legend>
+      <input id="retarget-notes" class="input input-sm w-full" autocomplete="off" placeholder="Optional review note">
+    </fieldset>
+    <label class="label mt-2 cursor-pointer justify-start gap-2 text-xs">
+      <input id="retarget-overwrite" type="checkbox" class="checkbox checkbox-xs">
+      Allow replacing an existing Tianyi arm pose
+    </label>
+    <button id="retarget-save" class="btn btn-sm mt-3 w-full" type="button" disabled>
+      Save robot-left arm pose
+    </button>
+  </div>
+
+  <div id="retarget-status" role="status" class="alert alert-info mt-4 py-2 text-xs">
+    <span>Retargeting matches the source arm geometry directly; robot-specific <span class="font-mono">concierge_init</span> arm postures are not used as references.</span>
+  </div>
+  <div id="retarget-success" role="status" class="alert alert-success mt-3 hidden py-2 text-xs"></div>
+  <div id="retarget-error" role="alert" class="alert alert-error mt-3 hidden py-2 text-xs"></div>
+</section>

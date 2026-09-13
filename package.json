@@ -1,0 +1,13 @@
+{
+  "name": "tianyi-action-recorder-ui",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i app/ui_tianyi_3d/static/css/input.css -o app/ui_tianyi_3d/static/css/app.css --minify",
+    "watch:css": "tailwindcss -i app/ui_tianyi_3d/static/css/input.css -o app/ui_tianyi_3d/static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.3.3",
+    "daisyui": "5.7.37",
+    "tailwindcss": "4.3.3"
+  }
+}

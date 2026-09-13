@@ -1,0 +1,167 @@
+{
+  "schema_version": 2,
+  "purpose": "viser_body_and_inspire_hands",
+  "source_urdf": "tianyi2.0_urdf_with_hands.urdf",
+  "source_urdf_sha256": "a7e742ad600c7f1e9eeecdd04046dea4cd5f81cccb6dde73f290968b345e4b20",
+  "canonical_body_urdf": "tianyi2.0_URDF.urdf",
+  "canonical_body_urdf_sha256": "71253d0679248a9bbbfad3c6a7fcde13262088968cdb6f7079e0498ac35df7e8",
+  "optimized_visual_urdf": "tianyi2_visual_optimized.urdf",
+  "optimized_visual_urdf_sha256": "b6b4a43a4d9b37ed6112febc79acf100769160927aa77a7438a5558e0f7f6db1",
+  "optimized_mesh_directory": "meshes_visual_optimized",
+  "optimized_mesh_metadata": "visual_urdf_mesh_metadata.json",
+  "optimized_mesh_metadata_sha256": "896c7a24b7ffd67514f0d198f00c656f8422ab1b59b9951b66f4f5a3f836544d",
+  "generator": "util/build_tianyi_visual_urdf.py",
+  "link_count": 51,
+  "joint_count": 50,
+  "movable_joint_count": 21,
+  "movable_joint_names": [
+    "first_leg_pitch_joint",
+    "second_leg_pitch_joint",
+    "waist_pitch_joint",
+    "waist_yaw_joint",
+    "head_yaw_joint",
+    "head_pitch_joint",
+    "head_roll_joint",
+    "shoulder_pitch_l_joint",
+    "shoulder_roll_l_joint",
+    "shoulder_yaw_l_joint",
+    "elbow_pitch_l_joint",
+    "elbow_yaw_l_joint",
+    "wrist_pitch_l_joint",
+    "wrist_roll_l_joint",
+    "shoulder_pitch_r_joint",
+    "shoulder_roll_r_joint",
+    "shoulder_yaw_r_joint",
+    "elbow_pitch_r_joint",
+    "elbow_yaw_r_joint",
+    "wrist_pitch_r_joint",
+    "wrist_roll_r_joint"
+  ],
+  "actuated_joint_count": 21,
+  "actuated_joint_names": [
+    "first_leg_pitch_joint",
+    "second_leg_pitch_joint",
+    "waist_pitch_joint",
+    "waist_yaw_joint",
+    "head_yaw_joint",
+    "head_pitch_joint",
+    "head_roll_joint",
+    "shoulder_pitch_l_joint",
+    "shoulder_roll_l_joint",
+    "shoulder_yaw_l_joint",
+    "elbow_pitch_l_joint",
+    "elbow_yaw_l_joint",
+    "wrist_pitch_l_joint",
+    "wrist_roll_l_joint",
+    "shoulder_pitch_r_joint",
+    "shoulder_roll_r_joint",
+    "shoulder_yaw_r_joint",
+    "elbow_pitch_r_joint",
+    "elbow_yaw_r_joint",
+    "wrist_pitch_r_joint",
+    "wrist_roll_r_joint"
+  ],
+  "body_joint_count": 21,
+  "body_joint_names": [
+    "first_leg_pitch_joint",
+    "second_leg_pitch_joint",
+    "waist_pitch_joint",
+    "waist_yaw_joint",
+    "head_yaw_joint",
+    "head_pitch_joint",
+    "head_roll_joint",
+    "shoulder_pitch_l_joint",
+    "shoulder_roll_l_joint",
+    "shoulder_yaw_l_joint",
+    "elbow_pitch_l_joint",
+    "elbow_yaw_l_joint",
+    "wrist_pitch_l_joint",
+    "wrist_roll_l_joint",
+    "shoulder_pitch_r_joint",
+    "shoulder_roll_r_joint",
+    "shoulder_yaw_r_joint",
+    "elbow_pitch_r_joint",
+    "elbow_yaw_r_joint",
+    "wrist_pitch_r_joint",
+    "wrist_roll_r_joint"
+  ],
+  "hand_joint_count": 24,
+  "hand_joint_names": [
+    "left_thumb_1_joint",
+    "left_thumb_2_joint",
+    "left_thumb_3_joint",
+    "left_thumb_4_joint",
+    "left_index_1_joint",
+    "left_index_2_joint",
+    "left_middle_1_joint",
+    "left_middle_2_joint",
+    "left_ring_1_joint",
+    "left_ring_2_joint",
+    "left_little_1_joint",
+    "left_little_2_joint",
+    "right_thumb_1_joint",
+    "right_thumb_2_joint",
+    "right_thumb_3_joint",
+    "right_thumb_4_joint",
+    "right_index_1_joint",
+    "right_index_2_joint",
+    "right_middle_1_joint",
+    "right_middle_2_joint",
+    "right_ring_1_joint",
+    "right_ring_2_joint",
+    "right_little_1_joint",
+    "right_little_2_joint"
+  ],
+  "source_hand_actuated_joint_count": 12,
+  "source_hand_actuated_joint_names": [
+    "left_thumb_1_joint",
+    "left_thumb_2_joint",
+    "left_index_1_joint",
+    "left_middle_1_joint",
+    "left_ring_1_joint",
+    "left_little_1_joint",
+    "right_thumb_1_joint",
+    "right_thumb_2_joint",
+    "right_index_1_joint",
+    "right_middle_1_joint",
+    "right_ring_1_joint",
+    "right_little_1_joint"
+  ],
+  "visual_hand_actuated_joint_count": 0,
+  "hand_joint_mode": "fixed_neutral",
+  "hand_default_position": 0.0,
+  "body_limit_overrides": {
+    "first_leg_pitch_joint": {
+      "hand_urdf": {
+        "lower": "-0.41887902047863906",
+        "upper": "1.0471975511965976"
+      },
+      "canonical_body": {
+        "lower": "-0.41887902047863906",
+        "upper": "0.9075712110370514"
+      }
+    },
+    "second_leg_pitch_joint": {
+      "hand_urdf": {
+        "lower": "-0.5061454830783556",
+        "upper": "1.7453292519943295"
+      },
+      "canonical_body": {
+        "lower": "-1.7453292519943295",
+        "upper": "0.5061454830783556"
+      }
+    },
+    "waist_pitch_joint": {
+      "hand_urdf": {
+        "lower": "-2.0943951023931953",
+        "upper": "0.7853981633974483"
+      },
+      "canonical_body": {
+        "lower": "-0.7853981633974483",
+        "upper": "2.0943951023931953"
+      }
+    }
+  },
+  "visual_mesh_count": 51,
+  "collision_element_count": 0
+}

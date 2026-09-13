@@ -1,0 +1,150 @@
+<section
+  id="panel-action-composer"
+  class="hidden overflow-x-hidden p-5"
+  role="tabpanel"
+  aria-labelledby="tab-action-composer"
+  data-panel="action-composer"
+  data-action-panel
+>
+  <p class="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-base-content/50">03 · Sequence</p>
+  <h1 class="mt-1 text-xl font-bold tracking-tight">Action Composer</h1>
+  <p class="mt-2 text-sm leading-5 text-base-content/65">
+    Build a timed head-and-arms motion between complete poses. Every action starts and finishes at <span class="font-mono">base/{{ action_home_pose_name }}</span>.
+  </p>
+
+  <div role="alert" class="alert alert-warning mt-4 py-2 text-xs">
+    MuJoCo + Viser preview only. Wheels, leg mechanism, waist, and Inspire hands are never authored.
+  </div>
+
+  <div class="divider my-4"></div>
+
+  <div class="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
+    <fieldset class="fieldset min-w-0">
+      <legend class="fieldset-legend">Saved action</legend>
+      <select id="action-saved" class="select select-sm w-full">
+        <option value="">Select a definition</option>
+        {% for action_name in saved_action_names %}<option value="{{ action_name }}">{{ action_name }}</option>{% endfor %}
+      </select>
+    </fieldset>
+    <button id="action-load" class="btn btn-sm self-end" type="button">Load</button>
+  </div>
+
+  <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <fieldset class="fieldset min-w-0">
+      <legend class="fieldset-legend">Action name</legend>
+      <input id="action-name" class="input input-sm w-full" maxlength="100" autocomplete="off" placeholder="welcome_wave">
+    </fieldset>
+    <fieldset class="fieldset min-w-0">
+      <legend class="fieldset-legend">Fixed start + finish pose</legend>
+      <input class="input input-sm w-full font-mono" value="base/{{ action_home_pose_name }}" readonly aria-readonly="true">
+      <p class="label whitespace-normal">Required for every saved and compiled action.</p>
+    </fieldset>
+  </div>
+  <fieldset class="fieldset mt-2">
+    <legend class="fieldset-legend">Notes</legend>
+    <input id="action-notes" class="input input-sm w-full" autocomplete="off" placeholder="Optional simulation notes">
+  </fieldset>
+
+  <div class="mt-5 border-t border-base-300 pt-4">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold">Add intermediate keyframe</h2>
+      <span class="badge badge-outline badge-sm">17 joints</span>
+    </div>
+    <fieldset class="fieldset mt-1">
+      <legend class="fieldset-legend">Complete pose</legend>
+      <select id="action-pose" class="select select-sm w-full">
+        <option value="">Select a base or composed pose</option>
+        {% for pose in action_pose_choices %}<option value="{{ pose.value }}">{{ pose.label }}</option>{% endfor %}
+      </select>
+    </fieldset>
+    <div class="grid grid-cols-2 gap-3">
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">Travel · seconds</legend>
+        <input id="action-travel" class="input input-sm w-full" type="number" min="0.01" step="0.1" value="{{ default_action_transition_seconds }}">
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">Hold · seconds</legend>
+        <input id="action-hold" class="input input-sm w-full" type="number" min="0" step="0.1" value="0">
+      </fieldset>
+    </div>
+    <button id="action-add-frame" class="btn btn-sm mt-2 w-full" type="button">Add keyframe</button>
+  </div>
+
+  <div class="mt-5 border-t border-base-300 pt-4">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold">Motion timeline</h2>
+      <button id="action-clear" class="btn btn-ghost btn-xs" type="button">Clear frames</button>
+    </div>
+    <ol id="action-sequence" class="list mt-2" aria-label="Action keyframes">
+      <li class="list-row border border-base-300 bg-base-200 px-3 py-2" data-action-start>
+        <span class="badge badge-neutral badge-sm">01</span>
+        <div class="min-w-0">
+          <p class="truncate text-sm font-semibold" data-action-home-start>base/{{ action_home_pose_name }}</p>
+          <p class="font-mono text-[0.65rem] uppercase text-base-content/50">Fixed start</p>
+        </div>
+        <span class="badge badge-ghost badge-sm">t = 0</span>
+      </li>
+      <li class="list-row border border-base-300 bg-base-200 px-3 py-2" data-action-end>
+        <span class="badge badge-neutral badge-sm" data-action-end-index>02</span>
+        <div class="min-w-0">
+          <p class="truncate text-sm font-semibold" data-action-home-end>base/{{ action_home_pose_name }}</p>
+          <p class="font-mono text-[0.65rem] uppercase text-base-content/50">Fixed finish</p>
+        </div>
+        <fieldset class="fieldset w-24">
+          <legend class="fieldset-legend text-[0.65rem]">Travel · s</legend>
+          <input id="action-return" class="input input-xs w-full" type="number" min="0.01" step="0.1" value="{{ default_action_transition_seconds }}">
+        </fieldset>
+      </li>
+    </ol>
+  </div>
+
+  <div class="mt-5 border-t border-base-300 pt-4">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Trajectory frequency · Hz</legend>
+      <input id="action-frequency" class="input input-sm w-full" type="number" min="1" step="1" value="{{ default_action_sample_frequency_hz }}">
+    </fieldset>
+    <label class="label mt-2 cursor-pointer justify-start gap-2 text-xs">
+      <input id="action-overwrite" type="checkbox" class="checkbox checkbox-xs">
+      Allow replacing existing JSON or NPZ
+    </label>
+    <div class="mt-3 grid grid-cols-2 gap-2">
+      <button id="action-save" class="btn btn-sm" type="button">Save JSON</button>
+      <button id="action-compile" class="btn btn-sm btn-neutral" type="button">Compile NPZ</button>
+    </div>
+    <a id="action-download" class="btn btn-sm btn-outline mt-2 hidden w-full" download>Download compiled NPZ</a>
+  </div>
+
+  <div class="mt-5 border-t border-base-300 pt-4">
+    <div class="flex items-center justify-between gap-3">
+      <div>
+        <h2 class="text-sm font-semibold">Trajectory preview</h2>
+        <p class="mt-0.5 text-xs text-base-content/55">Shared MuJoCo state · visible in Viser</p>
+      </div>
+      <span id="action-playback-state" class="badge badge-ghost badge-sm">Idle</span>
+    </div>
+    <fieldset class="fieldset mt-2">
+      <legend class="fieldset-legend">Compiled trajectory</legend>
+      <select id="action-trajectory" class="select select-sm w-full">
+        <option value="">Select a compiled NPZ</option>
+        {% for action_name in compiled_action_names %}<option value="{{ action_name }}">{{ action_name }}</option>{% endfor %}
+      </select>
+    </fieldset>
+    <div class="join mt-2 flex w-full" aria-label="Preview playback controls">
+      <button id="action-play" class="btn btn-sm btn-neutral join-item flex-1" type="button">Play</button>
+      <button id="action-pause" class="btn btn-sm join-item flex-1" type="button" disabled>Pause</button>
+      <button id="action-stop" class="btn btn-sm btn-error btn-outline join-item flex-1" type="button" disabled>Stop</button>
+    </div>
+    <label class="label mt-2 cursor-pointer justify-start gap-2 text-xs">
+      <input id="action-loop" type="checkbox" class="toggle toggle-sm">
+      Loop preview
+    </label>
+    <progress id="action-progress" class="progress progress-info mt-2 w-full" value="0" max="100"></progress>
+    <p id="action-time" class="mt-1 text-right font-mono text-[0.65rem] uppercase text-base-content/50">0.00 / 0.00 s</p>
+  </div>
+
+  <div id="action-status" role="status" class="alert alert-info mt-4 py-2 text-xs">
+    Add at least one complete intermediate pose. Start and finish are fixed to base/{{ action_home_pose_name }}.
+  </div>
+  <div id="action-success" role="status" class="alert alert-success mt-3 hidden py-2 text-xs"></div>
+  <div id="action-error" role="alert" class="alert alert-error mt-3 hidden py-2 text-xs"></div>
+</section>

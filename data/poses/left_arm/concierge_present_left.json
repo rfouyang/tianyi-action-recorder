@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "concierge_present_left",
+  "pose_type": "left_arm",
+  "robot_model_id": "xhumanoid_tianyi2_0_pro_body_21dof_5c221783",
+  "joint_values": {
+    "shoulder_pitch_l_joint": -0.59006,
+    "shoulder_roll_l_joint": 0.146201,
+    "shoulder_yaw_l_joint": 1.26994,
+    "elbow_pitch_l_joint": -0.981994,
+    "elbow_yaw_l_joint": 0.61194,
+    "wrist_pitch_l_joint": -0.000398,
+    "wrist_roll_l_joint": -6.3e-05
+  },
+  "source": "simulation",
+  "created_at": "2026-09-13T09:40:11.711456Z",
+  "source_parts": {},
+  "notes": ""
+}
