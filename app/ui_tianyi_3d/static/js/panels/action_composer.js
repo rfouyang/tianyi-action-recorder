@@ -288,7 +288,6 @@ class ActionComposerPanel {
     this.pauseButton.disabled = !["playing", "paused"].includes(playback.state);
     this.pauseButton.textContent = playback.state === "paused" ? "Resume" : "Pause";
     this.stopButton.disabled = !["playing", "paused", "completed"].includes(playback.state);
-    if (playback.action_name && [...this.trajectory.options].some((option) => option.value === playback.action_name)) this.trajectory.value = playback.action_name;
   }
 
   decodeReference(value) {

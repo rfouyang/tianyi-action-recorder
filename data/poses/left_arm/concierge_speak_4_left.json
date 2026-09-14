@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "concierge_speak_4_left",
+  "pose_type": "left_arm",
+  "robot_model_id": "xhumanoid_tianyi2_0_pro_body_21dof_5c221783",
+  "joint_values": {
+    "shoulder_pitch_l_joint": 0.18416760325400572,
+    "shoulder_roll_l_joint": 0.2928935386234541,
+    "shoulder_yaw_l_joint": -0.16700823735489573,
+    "elbow_pitch_l_joint": -2.1733809819544665,
+    "elbow_yaw_l_joint": 0.3922968070788464,
+    "wrist_pitch_l_joint": 0.13044286894701465,
+    "wrist_roll_l_joint": 0.05359700235693795
+  },
+  "source": "retargeting",
+  "created_at": "2026-09-14T08:18:15.661678Z",
+  "source_parts": {},
+  "notes": "Retargeted robot-left arm in MuJoCo from G1 composed/concierge_speak_4 from concierge_speak_4.json."
+}

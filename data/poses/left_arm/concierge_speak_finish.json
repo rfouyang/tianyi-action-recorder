@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "concierge_speak_finish",
+  "pose_type": "left_arm",
+  "robot_model_id": "xhumanoid_tianyi2_0_pro_body_21dof_5c221783",
+  "joint_values": {
+    "shoulder_pitch_l_joint": -6e-05,
+    "shoulder_roll_l_joint": 0.253201,
+    "shoulder_yaw_l_joint": -0.26506,
+    "elbow_pitch_l_joint": -1.083994,
+    "elbow_yaw_l_joint": -0.38606,
+    "wrist_pitch_l_joint": -0.000398,
+    "wrist_roll_l_joint": -6.3e-05
+  },
+  "source": "simulation",
+  "created_at": "2026-09-14T08:45:10.847724Z",
+  "source_parts": {},
+  "notes": ""
+}

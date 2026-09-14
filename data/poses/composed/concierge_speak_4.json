@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "name": "concierge_speak_4",
+  "pose_type": "composed",
+  "robot_model_id": "xhumanoid_tianyi2_0_pro_body_21dof_5c221783",
+  "joint_values": {
+    "head_yaw_joint": 0.000204,
+    "head_pitch_joint": -0.000332,
+    "head_roll_joint": 0.000214,
+    "shoulder_pitch_l_joint": 0.18416760325400572,
+    "shoulder_roll_l_joint": 0.2928935386234541,
+    "shoulder_yaw_l_joint": -0.16700823735489573,
+    "elbow_pitch_l_joint": -2.1733809819544665,
+    "elbow_yaw_l_joint": 0.3922968070788464,
+    "wrist_pitch_l_joint": 0.13044286894701465,
+    "wrist_roll_l_joint": 0.05359700235693795,
+    "shoulder_pitch_r_joint": 0.10061987259859438,
+    "shoulder_roll_r_joint": -0.2617505116710925,
+    "shoulder_yaw_r_joint": 0.1891826201639695,
+    "elbow_pitch_r_joint": -2.1646199078543193,
+    "elbow_yaw_r_joint": -0.27301073723008296,
+    "wrist_pitch_r_joint": 0.12908661468630495,
+    "wrist_roll_r_joint": -0.038470098579028486
+  },
+  "source": "composition",
+  "created_at": "2026-09-14T08:21:03.614454Z",
+  "source_parts": {
+    "base": "concierge_init",
+    "left_arm": "concierge_speak_4_left",
+    "right_arm": "concierge_speak_4_right"
+  },
+  "notes": ""
+}
